@@ -48,7 +48,7 @@ def draw_list(color_info, color_position=dict(), clear_plot=False):
     lst = color_info.unsorted_list
 
     if clear_plot:
-        pygame.draw.rect(color_info.window, color_info.SOFTWHITE, (0, color_info.PADDINGPIX, color_info.height * 2, color_info.width * 2))
+        pygame.draw.rect(color_info.window, color_info.SOFTWHITE, (0, color_info.PADDINGPIX - 10, color_info.height * 2, color_info.width * 2))
 
     for i, val in enumerate(lst):
         x_point = color_info.start_cor_x + i * color_info.bar_width
@@ -113,11 +113,14 @@ def main():
                 color_info.set_list(unsorted_list)
                 currently_sorting = False
 
+            if event.key == pygame.K_i:
+                current_algorithm = insertion_sort
+                current_algorithm_name = "insertion sort"
+
     pygame.quit()
 
 def bubble_sort(color_info):
     unsorted_list = color_info.unsorted_list
-    print("im called bitch")
 
     for i in range(len(unsorted_list) - 1):
         for j in range(len(unsorted_list) - i - 1):
@@ -129,7 +132,26 @@ def bubble_sort(color_info):
                 draw_list(color_info, {j: color_info.BLUE, j + 1: color_info.GREEN}, True)
                 yield True
 
+    draw_list(color_info)
     return unsorted_list
+
+def insertion_sort(color_info):
+    lst = color_info.unsorted_list
+    for i in range(1, len(lst)):
+        val = lst[i]
+
+        j = i - 1
+        while j >= 0 and val < lst[j]:
+            lst[j + 1] = lst[j]
+            j -= 1
+            draw_list(color_info, {j: color_info.BLUE, j + 1: color_info.GREEN}, True)
+            yield True
+
+        lst[j] = val
+        draw_list(color_info, {j: color_info.BLUE, j + 1: color_info.GREEN}, True)
+        yield True
+
+    return lst
 
 
 
