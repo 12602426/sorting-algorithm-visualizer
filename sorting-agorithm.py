@@ -117,6 +117,10 @@ def main():
                 current_algorithm = insertion_sort
                 current_algorithm_name = "insertion sort"
 
+            if event.key == pygame.K_b:
+                current_algorithm = bubble_sort
+                current_algorithm_name = "bubble sort"
+
     pygame.quit()
 
 def bubble_sort(color_info):
@@ -139,17 +143,12 @@ def insertion_sort(color_info):
     lst = color_info.unsorted_list
     for i in range(1, len(lst)):
         val = lst[i]
-
-        j = i - 1
-        while j >= 0 and val < lst[j]:
-            lst[j + 1] = lst[j]
-            j -= 1
-            draw_list(color_info, {j: color_info.BLUE, j + 1: color_info.GREEN}, True)
+        while lst[i - 1] > val and i != 0:
+            lst[i] = lst[i - 1]
+            i -= 1
+            lst[i] = val
+            draw_list(color_info, {i - 1: color_info.BLUE, i: color_info.GREEN}, True)
             yield True
-
-        lst[j] = val
-        draw_list(color_info, {j: color_info.BLUE, j + 1: color_info.GREEN}, True)
-        yield True
 
     return lst
 
