@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 pygame.init()
 
@@ -27,7 +28,7 @@ class ColorInformation:
         self.min = min(unsorted_list)
 
         self.bar_width = round((self.width - self.PADDINGPIX) / len(unsorted_list))
-        self.bar_height = round((self.height - self.PADDINGPIX) / (self.max - self.min))
+        self.bar_height = math.floor((self.height - self.PADDINGPIX) / (self.max - self.min))
         self.start_cor_x = self.PADDINGPIX // 2
 
 def generate_random_list(len, min_val, max_val):
@@ -48,7 +49,12 @@ def draw_list(color_info, color_position=dict(), clear_plot=False):
     lst = color_info.unsorted_list
 
     if clear_plot:
-        pygame.draw.rect(color_info.window, color_info.SOFTWHITE, (0, color_info.PADDINGPIX - 10, color_info.height * 2, color_info.width * 2))
+        rect_to_clear = (color_info.PADDINGPIX // 2,
+                        color_info.PADDINGPIX,
+                        color_info.width - color_info.PADDINGPIX,
+                        color_info.height - color_info.PADDINGPIX)
+
+        pygame.draw.rect(color_info.window, color_info.SOFTWHITE, rect_to_clear)
 
     for i, val in enumerate(lst):
         x_point = color_info.start_cor_x + i * color_info.bar_width
